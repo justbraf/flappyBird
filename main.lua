@@ -8,9 +8,11 @@ VIRTUAL_HEIGHT = 288
 
 local bkgnd = love.graphics.newImage('assets/background.png')
 local bkScroll = 0
+local bkScrollSpeed = 50
 
 local ground = love.graphics.newImage('assets/ground.png')
 local gndScroll = 0
+local gndScrollSpeed = 100
 
 function love.load()
     math.randomseed(os.time())
@@ -39,8 +41,12 @@ end
 
 function love.update(dt)
     bkScroll = bkScroll - 50 * dt
+    if bkScroll < -413 then
+        bkScroll = 0
+    end
+
     gndScroll = gndScroll - 100 * dt
-    if gndScroll < -1050 + VIRTUAL_WIDTH then
+    if gndScroll < -1100 + VIRTUAL_WIDTH then
         gndScroll = 0
     end
 end
