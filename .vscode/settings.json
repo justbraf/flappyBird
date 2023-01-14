@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "love",
+        "class_commons",
+        "common",
+        "push",
+        "medFont",
+        "bird"
+    ]
+}

@@ -15,9 +15,6 @@ function Pipe:update(dt)
 end
 
 function Pipe:render()
-    if self.placement == 'bottom' then
-        love.graphics.draw(PIPE_IMAGE, self.x, self.y)
-    else
-        love.graphics.draw(PIPE_IMAGE, self.x + self.width, self.y, math.pi)
-    end
+    -- rotated my sprites instead of reflecting them about an axis
+    love.graphics.draw(PIPE_IMAGE, self.placement == 'bottom' and self.x or self.x +self.width, self.y, self.placement == 'bottom' and 0 or math.pi)
 end
