@@ -35,11 +35,15 @@ function Bird:collides(pipePair)
     -- if the bird is not within the pipe gap then indicate a collision
     if self.x + self.width - 2 > pipePair.x and
         (self.y + 2 < pipePair.y or self.y + self.height - 2 > pipePair.pipes['lower'].y) then
-        print('pipe.x ' .. pipePair.pipes['lower'].y)
-        return true
-    elseif self.y > VIRTUAL_HEIGHT - 16 - self.height - 2 then
         return true
     end
     -- no conditions have been met. The bird is flying in open space
     return false
+end
+
+function Bird:collideGround()
+    -- if the bird is touching the ground indicate a collision
+    if self.y > VIRTUAL_HEIGHT - 16 - self.height - 2 then
+        return true
+    end
 end

@@ -68,7 +68,13 @@ function PlayState:update(dt)
         pipePair:update(dt)
     end
 
-    -- check for collisions between bird and pipes or ground
+    -- check for collisions between bird and ground
+    if self.bird:collideGround() then
+        gStateMachine:change('score', {
+            score = self.score
+        })
+    end
+    -- check for collisions between bird and pipes
     for key, pipePair in pairs(self.pipePairs) do
         if self.bird:collides(pipePair) then
             gStateMachine:change('score', {
@@ -80,10 +86,8 @@ function PlayState:update(dt)
     -- check if bird has passed a pipe and it wasn't scored then score it
     for key, pipePair in pairs(self.pipePairs) do
         if not pipePair.scored then
-            print(pipePair.scored)
             if pipePair.x + pipePair.width < self.bird.x then
                 self.score = self.score + 1
-                print(self.score)
                 pipePair.scored = true
             end
         end
