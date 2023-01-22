@@ -29,12 +29,12 @@ end
 
 function Bird:collides(pipePair)
     -- if the bird has flown pass a pipePair then ignore them
-    if self.x + 2 > pipePair.pipes['upper'].x + pipePair.width then
+    if self.x + 2 > pipePair.x + pipePair.width then
         return false
     end
     -- if the bird is not within the pipe gap then indicate a collision
-    if self.x + self.width - 2 > pipePair.pipes['upper'].x and
-        (self.y + 2 < pipePair.pipes['upper'].y or self.y + self.height - 2 > pipePair.pipes['lower'].y) then
+    if self.x + self.width - 2 > pipePair.x and
+        (self.y + 2 < pipePair.y or self.y + self.height - 2 > pipePair.pipes['lower'].y) then
         print('pipe.x ' .. pipePair.pipes['lower'].y)
         return true
     elseif self.y > VIRTUAL_HEIGHT - 16 - self.height - 2 then

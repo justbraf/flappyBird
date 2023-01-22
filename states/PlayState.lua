@@ -21,6 +21,7 @@ function PlayState:init()
     self.bird = Bird()
     self.pipePairs = {}
     self.spawnTimer = 0
+    self.score = 0
 
     -- my sprites are rotated instead of scaled, so my values start within the screen
     self.lastY = math.random(VIRTUAL_HEIGHT / 14, VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT / 2.2))
@@ -53,7 +54,7 @@ function PlayState:update(dt)
         -- end
         -- check table for pipe pairs that are out of the zone and remove them
         for key, pipePair in pairs(self.pipePairs) do
-            if pipePair.pipes['upper'].x < -pipePair.width then
+            if pipePair.x < -pipePair.width then
                 table.remove(self.pipePairs, key)
             end
         end
@@ -70,7 +71,21 @@ function PlayState:update(dt)
     -- check for collisions between bird and pipes or ground
     for key, pipePair in pairs(self.pipePairs) do
         if self.bird:collides(pipePair) then
-            gStateMachine:change('title')
+            gStateMachine:change('score', {
+                score = self.score
+            })
+        end
+    end
+
+    -- check if bird has passed a pipe and it wasn't scored then score it
+    for key, pipePair in pairs(self.pipePairs) do
+        if not pipePair.scored then
+            print(pipePair.scored)
+            if pipePair.x + pipePair.width < self.bird.x then
+                self.score = self.score + 1
+                print(self.score)
+                pipePair.scored = true
+            end
         end
     end
 end
@@ -82,4 +97,8 @@ function PlayState:render()
     end
 
     self.bird:render()
+
+    -- show score
+    love.graphics.setFont(lgFont)
+    love.graphics.print('Score: ' .. tostring(self.score), 8, 8)
 end

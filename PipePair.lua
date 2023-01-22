@@ -5,6 +5,7 @@ local GAP_HEIGHT = 90
 function PipePair:init(y)
     self.x = VIRTUAL_WIDTH + 32
     self.y = y
+    self.scored = false
 
 
     -- minimum gap start top = 40 or 10
@@ -19,6 +20,9 @@ end
 function PipePair:update(dt)
     self.pipes['upper']:update(dt)
     self.pipes['lower']:update(dt)
+
+    -- update pipePair x position
+    self.x = self.pipes['upper'].x
 end
 
 function PipePair:render()
