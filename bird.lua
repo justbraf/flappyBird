@@ -21,7 +21,7 @@ function Bird:update(dt)
     end
     self.dy = self.dy + GRAVITY * dt
     self.y = self.y + self.dy
-    -- if the bird sprite is above the view port then limit its y position
+    -- if the bird sprite is above the view port then limit its y position to zero
     if self.y < 0 then
         self.y = 0
     end
