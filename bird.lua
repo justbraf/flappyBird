@@ -3,7 +3,12 @@ Bird = Class {}
 local GRAVITY = 20
 
 function Bird:init()
-    self.image = love.graphics.newImage('assets/bird.png')
+    -- set bird sprite based on easter egg flag
+    if easterEggFlag then
+        self.image = love.graphics.newImage('assets/birdcs50.png')
+    else
+        self.image = love.graphics.newImage('assets/bird.png')
+    end
     self.width = self.image:getWidth()
     self.height = self.image:getHeight()
     self.x = VIRTUAL_WIDTH / 2 - self.width / 2
@@ -16,8 +21,10 @@ function Bird:render()
 end
 
 function Bird:update(dt)
-    if love.keyboard.wasPressed('space') then
+    -- make bird fly with spacebar or left-click
+    if love.keyboard.wasPressed('space') or love.mouse.wasPressed(1) then
         self.dy = -5
+        sounds['jump']:play()
     end
     self.dy = self.dy + GRAVITY * dt
     self.y = self.y + self.dy

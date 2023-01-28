@@ -41,6 +41,16 @@ local gndScroll = 0
 local GROUND_SCROLL_SPEED = 60
 local GROUND_LOOP_POINT = -1100
 
+-- pause sprite
+local pause = love.graphics.newImage('assets/pause.png')
+
+-- pause screen overlay
+local overlay = love.graphics.newImage('assets/transparent1.png')
+-- easter egg activation table
+easterEgg = {}
+-- easter egg flag
+easterEggFlag = false
+
 function love.load()
     math.randomseed(os.time())
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -66,8 +76,25 @@ function love.load()
     }
     gStateMachine:change('title')
 
+    sounds = {
+        ['jump'] = love.audio.newSource('assets/jump.wav', 'static'),
+        ['explosion'] = love.audio.newSource('assets/explosion.wav', 'static'),
+        ['hurt'] = love.audio.newSource('assets/hurt.wav', 'static'),
+        ['score'] = love.audio.newSource('assets/score.wav', 'static'),
+        ['music'] = love.audio.newSource('assets/marios_way.mp3', 'static'),
+        -- load audio for easter egg activation
+        ['success'] = love.audio.newSource('assets/success.mp3', 'static')
+    }
+
+    sounds['music']:setLooping(true)
+    sounds['music']:play()
+
     -- initialize keyboard input table
     love.keyboard.keysPressed = {}
+    -- initialize mouse input table
+    love.mouse.buttonPressed = {}
+    -- set mouse to be invisible
+    love.mouse.setVisible(false)
 end
 
 function love.resize(w, h)
@@ -82,27 +109,40 @@ function love.keypressed(key)
     end
 end
 
+function love.mousepressed(x, y, button)
+    love.mouse.buttonPressed[button] = true
+end
+
 function love.keyboard.wasPressed(key)
     return love.keyboard.keysPressed[key]
 end
 
+function love.mouse.wasPressed(key)
+    return love.mouse.buttonPressed[key]
+end
+
 function love.update(dt)
-    -- update background scroll position
-    bkScroll = bkScroll - BACKGROUND_SCROLL_SPEED * dt
-    if bkScroll < BACKGROUND_LOOP_POINT then
-        bkScroll = 0
-    end
+    -- check the state machine to see if the game was paused
+    local pauseState = gStateMachine:paused()
+    if not pauseState then
+        -- update background scroll position
+        bkScroll = bkScroll - BACKGROUND_SCROLL_SPEED * dt
+        if bkScroll < BACKGROUND_LOOP_POINT then
+            bkScroll = 0
+        end
 
-    -- update ground scroll position
-    gndScroll = gndScroll - GROUND_SCROLL_SPEED * dt
-    if gndScroll < GROUND_LOOP_POINT + VIRTUAL_WIDTH then
-        gndScroll = 0
+        -- update ground scroll position
+        gndScroll = gndScroll - GROUND_SCROLL_SPEED * dt
+        if gndScroll < GROUND_LOOP_POINT + VIRTUAL_WIDTH then
+            gndScroll = 0
+        end
     end
-
     gStateMachine:update(dt)
 
+    -- reset keyboard input table
     love.keyboard.keysPressed = {}
-    -- end
+    -- reset mouse input table
+    love.mouse.buttonPressed = {}
 end
 
 function love.draw()
@@ -113,6 +153,21 @@ function love.draw()
     gStateMachine:render()
     -- draw ground
     love.graphics.draw(ground, gndScroll, VIRTUAL_HEIGHT - ground:getHeight())
+
+    if gStateMachine:paused() then
+        -- draw overlay image
+        love.graphics.draw(overlay, 0, 0)
+        -- display pause text and icon
+        love.graphics.print('PAUSED', VIRTUAL_WIDTH / 2 - 55, VIRTUAL_HEIGHT / 2 - 30)
+        love.graphics.draw(pause, VIRTUAL_WIDTH / 2 - 31, VIRTUAL_HEIGHT / 2)
+        -- if audio is playing then pause it
+        if sounds['music']:isPlaying() then
+            sounds['music']:pause()
+        end
+    elseif not sounds['music']:isPlaying() then
+        -- if the audio was not resumed then resume it
+        sounds['music']:play()
+    end
 
     push:finish()
 end

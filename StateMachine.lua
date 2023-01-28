@@ -39,7 +39,9 @@ function StateMachine:init(states)
 		render = function() end,
 		update = function() end,
 		enter = function() end,
-		exit = function() end
+		exit = function() end,
+		-- declared pause interface method for use in PlayState
+		paused = function() end
 	}
 	self.states = states or {} -- [name] -> [function that returns states]
 	self.current = self.empty
@@ -58,4 +60,10 @@ end
 
 function StateMachine:render()
 	self.current:render()
+end
+
+-- declared pause method, so StateMachine can access the method in the PlayState
+function StateMachine:paused()
+	-- successfully return the value from the PlayState paused method
+	return self.current:paused()
 end

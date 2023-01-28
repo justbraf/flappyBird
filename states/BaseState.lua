@@ -22,3 +22,5 @@ function BaseState:enter() end
 function BaseState:exit() end
 function BaseState:update(dt) end
 function BaseState:render() end
+-- declared interface method for accessing the pause state, so it could defined in PlayState
+function BaseState:paused() end

@@ -1,12 +1,13 @@
 PipePair = Class {}
 
-local GAP_HEIGHT = 90
 
 function PipePair:init(y)
     self.x = VIRTUAL_WIDTH + 32
     self.y = y
     self.scored = false
 
+    -- randomize the pipe gap between 70 and 100 pixels
+    local GAP_HEIGHT = math.random(70, 100)
 
     -- minimum gap start top = 40 or 10
     -- maximum gap start bottom = 128 0r 268

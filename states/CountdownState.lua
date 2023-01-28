@@ -8,7 +8,7 @@
     countdown is complete.
 ]]
 
-CountdownState = Class{__includes = BaseState}
+CountdownState = Class { __includes = BaseState }
 
 -- takes 1 second to count down each time
 COUNTDOWN_TIME = 0.75
