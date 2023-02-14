@@ -7,13 +7,12 @@
     transition back into the play state. Transitioned to from the
     PlayState when they collide with a Pipe.
 ]]
-
 ScoreState = Class { __includes = BaseState }
 
 -- load medal sprites
-local goldMedal = love.graphics.newImage('assets/gold.png')
-local silverMedal = love.graphics.newImage('assets/silver.png')
-local bronzeMedal = love.graphics.newImage('assets/bronze.png')
+local goldMedal = love.graphics.newImage('gold.png')
+local silverMedal = love.graphics.newImage('silver.png')
+local bronzeMedal = love.graphics.newImage('bronze.png')
 
 --[[
     When we enter the score state, we expect to receive the score
@@ -37,18 +36,22 @@ function ScoreState:render()
 
     -- display a medal sprite based on the score
     love.graphics.setFont(smFont)
-    if self.score < 2 then
+    if self.score == 0 then
+        love.graphics.setFont(mdFont)
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.printf('Seems you\'re still a nestling', 0, 165, VIRTUAL_WIDTH, 'center')
+    elseif self.score < 2 then
         love.graphics.draw(bronzeMedal, VIRTUAL_WIDTH / 2 - 50, 120)
         love.graphics.setColor(0, 0, 0, 1)
-        love.graphics.printf('Chick \nAward', 0, 165, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Baby Chick \nAward', 0, 165, VIRTUAL_WIDTH, 'center')
     elseif self.score < 4 then
         love.graphics.draw(silverMedal, VIRTUAL_WIDTH / 2 - 50, 120)
         love.graphics.setColor(0, 0, 0, 1)
-        love.graphics.printf('Fledgling \nAward', 0, 165, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Fledgling Bird\nAward', 0, 165, VIRTUAL_WIDTH, 'center')
     else
         love.graphics.draw(goldMedal, VIRTUAL_WIDTH / 2 - 50, 120)
         love.graphics.setColor(0, 0, 0, 1)
-        love.graphics.printf('Adult \nAward', 0, 165, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Adult Bird\nAward', 0, 165, VIRTUAL_WIDTH, 'center')
     end
 
     love.graphics.setColor(1, 1, 1, 1)

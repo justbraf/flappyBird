@@ -5,9 +5,9 @@ local GRAVITY = 20
 function Bird:init()
     -- set bird sprite based on easter egg flag
     if easterEggFlag then
-        self.image = love.graphics.newImage('assets/birdcs50.png')
+        self.image = love.graphics.newImage('birdcs50.png')
     else
-        self.image = love.graphics.newImage('assets/bird.png')
+        self.image = love.graphics.newImage('bird.png')
     end
     self.width = self.image:getWidth()
     self.height = self.image:getHeight()

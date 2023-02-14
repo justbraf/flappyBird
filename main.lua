@@ -30,22 +30,22 @@ VIRTUAL_WIDTH = 512
 VIRTUAL_HEIGHT = 288
 
 -- background sprite config
-local bkgnd = love.graphics.newImage('assets/background.png')
+local bkgnd = love.graphics.newImage('background.png')
 local bkScroll = 0
 local BACKGROUND_SCROLL_SPEED = 30
 local BACKGROUND_LOOP_POINT = -413
 
 -- ground sprite config
-local ground = love.graphics.newImage('assets/ground.png')
+local ground = love.graphics.newImage('ground.png')
 local gndScroll = 0
 local GROUND_SCROLL_SPEED = 60
 local GROUND_LOOP_POINT = -1100
 
 -- pause sprite
-local pause = love.graphics.newImage('assets/pause.png')
+local pause = love.graphics.newImage('pause.png')
 
 -- pause screen overlay
-local overlay = love.graphics.newImage('assets/transparent1.png')
+local overlay = love.graphics.newImage('transparent1.png')
 -- easter egg activation table
 easterEgg = {}
 -- easter egg flag
@@ -56,10 +56,10 @@ function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
     love.window.setTitle("Fifty Bird")
 
-    smFont = love.graphics.newFont('assets/font.ttf', 8)
-    mdFont = love.graphics.newFont('assets/flappy.ttf', 14)
-    lgFont = love.graphics.newFont('assets/flappy.ttf', 28)
-    xlFont = love.graphics.newFont('assets/flappy.ttf', 56)
+    smFont = love.graphics.newFont('font.ttf', 8)
+    mdFont = love.graphics.newFont('flappy.ttf', 14)
+    lgFont = love.graphics.newFont('flappy.ttf', 28)
+    xlFont = love.graphics.newFont('flappy.ttf', 56)
     love.graphics.setFont(lgFont)
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -77,13 +77,13 @@ function love.load()
     gStateMachine:change('title')
 
     sounds = {
-        ['jump'] = love.audio.newSource('assets/jump.wav', 'static'),
-        ['explosion'] = love.audio.newSource('assets/explosion.wav', 'static'),
-        ['hurt'] = love.audio.newSource('assets/hurt.wav', 'static'),
-        ['score'] = love.audio.newSource('assets/score.wav', 'static'),
-        ['music'] = love.audio.newSource('assets/marios_way.mp3', 'static'),
+        ['jump'] = love.audio.newSource('jump.wav', 'static'),
+        ['explosion'] = love.audio.newSource('explosion.wav', 'static'),
+        ['hurt'] = love.audio.newSource('hurt.wav', 'static'),
+        ['score'] = love.audio.newSource('score.wav', 'static'),
+        ['music'] = love.audio.newSource('marios_way.mp3', 'static'),
         -- load audio for easter egg activation
-        ['success'] = love.audio.newSource('assets/success.mp3', 'static')
+        ['success'] = love.audio.newSource('success.mp3', 'static')
     }
 
     sounds['music']:setLooping(true)
